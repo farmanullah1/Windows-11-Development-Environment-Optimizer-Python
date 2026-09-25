@@ -34,7 +34,7 @@ The priority order is:
 
 ---
 
-# CRITICAL AI BEHAVIOR RULES
+## CRITICAL AI BEHAVIOR RULES
 
 ## 0. DO NOT MAKE UNSUPPORTED SAFETY CLAIMS
 
@@ -80,7 +80,7 @@ Always state relevant limitations and residual risks.
 
 ---
 
-# CRITICAL IMPLEMENTATION RULE
+## CRITICAL IMPLEMENTATION RULE
 
 ## DO NOT WRITE THE FINAL CODE IMMEDIATELY
 
@@ -133,7 +133,7 @@ Wait for explicit user approval before Phase 2.
 
 ---
 
-# PHASE APPROVAL RULE
+## PHASE APPROVAL RULE
 
 The following user instructions are considered explicit approval:
 
@@ -154,7 +154,7 @@ If approval is ambiguous, ask for confirmation.
 
 ---
 
-# PHASE 2 — IMPLEMENTATION
+## PHASE 2 — IMPLEMENTATION
 
 Only after explicit Phase 2 approval:
 
@@ -177,7 +177,7 @@ If implementation reveals a new safety concern, STOP and report it instead of si
 
 ---
 
-# PHASE 3 — STATIC SAFETY REVIEW
+## PHASE 3 — STATIC SAFETY REVIEW
 
 After implementation, perform a separate security review.
 
@@ -206,7 +206,7 @@ Produce the required final safety-review table.
 
 ---
 
-# 1. MANUAL EXECUTION ONLY
+## 1. MANUAL EXECUTION ONLY
 
 The laptop must behave normally when the optimizer is not running.
 
@@ -229,15 +229,15 @@ No persistence is allowed.
 
 ---
 
-# 2. GOOGLE ANTIGRAVITY MUST NOT EXECUTE THE UTILITY
+## 2. GOOGLE ANTIGRAVITY MUST NOT EXECUTE THE UTILITY
 
 Google Antigravity must treat the generated program as **untrusted system-modification code until manually reviewed by the user**.
 
 Antigravity must NOT:
 
 * execute the generated optimizer
-* execute `--apply`
-* execute `--purge-quarantine`
+* execute `--apply`	ext
+* execute `--purge-quarantine`	ext
 * execute rollback commands
 * run destructive tests against the host
 * install dependencies automatically
@@ -253,14 +253,14 @@ Any execution must be explicitly initiated by the user outside the AI generation
 
 ---
 
-# 3. WINDOWS 11 ONLY
+## 3. WINDOWS 11 ONLY
 
 The program must verify that it is actually running on Windows 11.
 
 If Windows 11 cannot be confidently detected:
 
 * perform no modifications
-* display `[ERROR] Windows 11 was not detected.`
+* display `[ERROR] Windows 11 was not detected.`	ext
 * exit safely
 
 Do not attempt to guess the operating system.
@@ -276,7 +276,7 @@ The primary implementation must remain Python for native Windows.
 
 ---
 
-# 4. FAIL-CLOSED DESIGN
+## 4. FAIL-CLOSED DESIGN
 
 When anything is uncertain, the program must choose the safer behavior.
 
@@ -298,7 +298,7 @@ Never "try something anyway."
 
 ---
 
-# 5. NO AUTOMATIC ADMIN ELEVATION
+## 5. NO AUTOMATIC ADMIN ELEVATION
 
 The program must NEVER automatically elevate itself.
 
@@ -323,11 +323,11 @@ Prefer normal-user operations.
 
 ---
 
-# 6. DEFAULT MODE
+## 6. DEFAULT MODE
 
 Running:
 
-```
+```	ext
 python optimizer.py
 ```
 
@@ -339,11 +339,11 @@ The user must explicitly request modification mode.
 
 ---
 
-# 7. STRICT CLI CONTRACT
+## 7. STRICT CLI CONTRACT
 
 Implement:
 
-```
+```	ext
 python optimizer.py
 
 python optimizer.py --dry-run
@@ -372,7 +372,7 @@ Rules:
 * no arguments = status/dry-run
 * `--dry-run` and `--apply` are mutually exclusive
 * malformed arguments = no modifications
-* destructive operations require `--apply`
+* destructive operations require `--apply`	ext
 * `--yes` does NOT bypass high-risk typed confirmations
 * high-risk operations require separate typed confirmation
 * rollback requires an explicit run ID
@@ -393,7 +393,7 @@ Those require their own explicit opt-in.
 
 ---
 
-# 8. DRY-RUN
+## 8. DRY-RUN
 
 Dry-run must:
 
@@ -424,16 +424,16 @@ If a log file is required, explain that writing the log is the only expected fil
 
 ---
 
-# 9. ALLOWLIST-BASED CLEANUP
+## 9. ALLOWLIST-BASED CLEANUP
 
 Use an **allowlist**, not a denylist, for cleanup.
 
 Never search arbitrary directories for names such as:
 
-* `cache`
-* `temp`
-* `tmp`
-* `old`
+* `cache`	ext
+* `temp`	ext
+* `tmp`	ext
+* `old`	ext
 * `logs`
 
 and assume they are safe.
@@ -451,13 +451,13 @@ The Phase 1 design must list every cleanup target explicitly.
 
 ---
 
-# 10. QUARANTINE INSTEAD OF PERMANENT DELETE
+## 10. QUARANTINE INSTEAD OF PERMANENT DELETE
 
 Permanent deletion must NOT be the default.
 
 For file-based cleanup, use:
 
-```
+```	ext
 %LOCALAPPDATA%\Win11DevOptimizer\quarantine\<run-id>\
 ```
 
@@ -479,19 +479,19 @@ Never claim a file can be restored unless it actually exists in quarantine.
 
 Permanent purge requires:
 
-```
+```	ext
 --purge-quarantine
 ```
 
 and the typed confirmation:
 
-```
+```	ext
 PURGE QUARANTINE
 ```
 
 ---
 
-# 11. QUARANTINE SAFETY
+## 11. QUARANTINE SAFETY
 
 The quarantine directory itself must be protected from accidental recursive cleanup.
 
@@ -516,7 +516,7 @@ Before moving a file:
 
 ---
 
-# 12. QUARANTINE LIMITATIONS
+## 12. QUARANTINE LIMITATIONS
 
 Some application cache systems may not be safely movable.
 
@@ -524,7 +524,7 @@ For example, an official cache command may permanently remove data.
 
 Such operations must be classified as:
 
-```
+```	ext
 NON-REVERSIBLE
 ```
 
@@ -536,7 +536,7 @@ If quarantine is technically impossible, the operation must remain disabled unle
 
 ---
 
-# 13. FILE AGE SAFETY RULES
+## 13. FILE AGE SAFETY RULES
 
 Default cleanup eligibility:
 
@@ -550,7 +550,7 @@ Default cleanup eligibility:
 
 Example:
 
-```
+```	ext
 minimum_age_days = 7
 ```
 
@@ -560,13 +560,13 @@ The safety floor must be defined during Phase 1.
 
 ---
 
-# 14. LOCKED / ACTIVE FILES
+## 14. LOCKED / ACTIVE FILES
 
 Never forcibly delete or move an active/locked file.
 
 If a file appears to be in use:
 
-```
+```	ext
 [SKIPPED] File is currently in use.
 ```
 
@@ -576,7 +576,7 @@ Do not use forceful unlock techniques.
 
 ---
 
-# 15. REPARSE POINT / SYMLINK SAFETY
+## 15. REPARSE POINT / SYMLINK SAFETY
 
 Do not follow:
 
@@ -591,13 +591,13 @@ All paths must be resolved to their canonical target (using strict Win32 final-p
 
 If the target is a junction, symlink, or cannot be confidently validated:
 
-```
+```	ext
 [SKIPPED] Unsafe path resolution or reparse point detected.
 ```
 
 ---
 
-# 16. EXACT SAFE TOOL OPERATIONS
+## 16. EXACT SAFE TOOL OPERATIONS
 
 Only commands explicitly approved in Phase 1 may be implemented.
 
@@ -605,13 +605,13 @@ Only commands explicitly approved in Phase 1 may be implemented.
 
 Preferred reporting:
 
-```
+```	ext
 npm cache verify
 ```
 
 Do not automatically run:
 
-```
+```	ext
 npm cache clean --force
 ```
 
@@ -619,11 +619,11 @@ npm cache clean --force
 
 Never delete:
 
-* `node_modules`
-* `package.json`
-* `package-lock.json`
-* `yarn.lock`
-* `pnpm-lock.yaml`
+* `node_modules`	ext
+* `package.json`	ext
+* `package-lock.json`	ext
+* `yarn.lock`	ext
+* `pnpm-lock.yaml`	ext
 * project source code
 
 ---
@@ -632,13 +632,13 @@ Never delete:
 
 Reporting may use:
 
-```
+```	ext
 python -m pip cache info
 ```
 
 Permanent cache removal:
 
-```
+```	ext
 python -m pip cache purge
 ```
 
@@ -650,7 +650,7 @@ requires explicit opt-in.
 
 A narrowly scoped official command may be considered:
 
-```
+```	ext
 dotnet nuget locals http-cache --clear
 ```
 
@@ -664,7 +664,7 @@ Do not automatically delete the global package cache.
 
 Default operation:
 
-```
+```	ext
 docker system df
 ```
 
@@ -672,7 +672,7 @@ is reporting only.
 
 Do NOT automatically execute:
 
-```
+```	ext
 docker system prune
 
 docker system prune -a
@@ -712,7 +712,7 @@ SQL Server may only be inspected for status/resource information unless the user
 
 ---
 
-# 17. BRAVE BROWSER
+## 17. BRAVE BROWSER
 
 Never delete:
 
@@ -731,13 +731,13 @@ Browser cache cleanup must be separately opt-in and must use an exact approved c
 
 If Brave is running:
 
-```
+```	ext
 [SKIPPED] Brave is currently running.
 ```
 
 ---
 
-# 18. GOOGLE ANTIGRAVITY / IDEs
+## 18. GOOGLE ANTIGRAVITY / IDEs
 
 Never automatically terminate:
 
@@ -757,7 +757,7 @@ Never modify:
 
 Protect VS Code:
 
-```
+```	ext
 workspaceStorage
 ```
 
@@ -765,7 +765,7 @@ and equivalent IDE state.
 
 ---
 
-# 19. NODE.JS DEVELOPMENT SERVERS
+## 19. NODE.JS DEVELOPMENT SERVERS
 
 Detecting Node.js processes is allowed.
 
@@ -782,13 +782,13 @@ If process management is implemented later:
 
 ---
 
-# 20. PROTECTED PATHS
+## 20. PROTECTED PATHS
 
 Protect the following by default.
 
 ## Windows
 
-```
+```	ext
 C:\Windows
 C:\Windows\System32
 C:\Windows\WinSxS
@@ -803,7 +803,7 @@ C:\Windows\SoftwareDistribution
 
 ## Program Files
 
-```
+```	ext
 C:\Program Files
 C:\Program Files (x86)
 C:\ProgramData
@@ -815,7 +815,7 @@ C:\ProgramData
 
 Protect:
 
-```
+```	ext
 %USERPROFILE%
 ```
 
@@ -839,9 +839,9 @@ Protect:
 
 Protect:
 
-* `.git`
-* `.github`
-* `.env`
+* `.git`	ext
+* `.github`	ext
+* `.env`	ext
 * source code
 * project configuration
 * package manifests
@@ -878,13 +878,13 @@ Protect:
 Protect:
 
 * WSL virtual disks
-* `.vhdx`
+* `.vhdx`	ext
 * WSL distributions
 * WSL configuration
 
 Do not automatically execute:
 
-```
+```	ext
 wsl --shutdown
 ```
 
@@ -907,7 +907,7 @@ Protect browser profiles and persistent browser databases.
 
 ---
 
-# 21. EXPLICITLY FORBIDDEN OPERATIONS
+## 21. EXPLICITLY FORBIDDEN OPERATIONS
 
 The default utility must NOT:
 
@@ -949,7 +949,7 @@ The default utility must NOT:
 
 ---
 
-# 22. POWER PLAN
+## 22. POWER PLAN
 
 Power-plan changes are optional.
 
@@ -973,7 +973,7 @@ Do not change advanced power settings automatically.
 
 ---
 
-# 23. ROLLBACK MANIFEST
+## 23. ROLLBACK MANIFEST
 
 Each modification run must receive a unique run ID.
 
@@ -993,7 +993,7 @@ Rollback must verify the current state before reverting.
 
 If the user changed the system after the optimizer modified it:
 
-```
+```	ext
 [WARNING] Current state differs from the recorded state. Skipping automatic rollback.
 ```
 
@@ -1003,19 +1003,19 @@ File deletion is only considered rollback-capable when the file exists in quaran
 
 ---
 
-# 24. SUBPROCESS SECURITY
+## 24. SUBPROCESS SECURITY
 
 All subprocess execution must follow strict rules.
 
 Use:
 
-```
+```	ext
 subprocess.run([...], shell=False, ...)
 ```
 
 Never use:
 
-```
+```	ext
 shell=True
 ```
 
@@ -1023,7 +1023,7 @@ unless a specific operation has been formally reviewed and approved in Phase 1.
 
 Prefer:
 
-```
+```	ext
 ["npm", "cache", "verify"]
 ```
 
@@ -1045,18 +1045,18 @@ Never concatenate arbitrary strings into commands.
 
 ---
 
-# 25. FORBIDDEN EXECUTION TECHNIQUES
+## 25. FORBIDDEN EXECUTION TECHNIQUES
 
 Never use:
 
-* `eval`
-* `exec`
+* `eval`	ext
+* `exec`	ext
 * arbitrary dynamic code execution
 * remote code execution
 * downloaded scripts
 * downloaded executables
 * obfuscated code
-* PowerShell `-EncodedCommand`
+* PowerShell `-EncodedCommand`	ext
 * hidden PowerShell payloads
 * concealed base64 commands
 * arbitrary URL execution
@@ -1066,7 +1066,7 @@ The program must not download anything automatically.
 
 ---
 
-# 26. NETWORK SAFETY
+## 26. NETWORK SAFETY
 
 The utility must not contact external servers by default.
 
@@ -1085,17 +1085,17 @@ If dependencies are required, provide installation instructions separately.
 
 ---
 
-# 27. CONFIGURATION VALIDATION
+## 27. CONFIGURATION VALIDATION
 
 Use a configuration file such as:
 
-```
+```	ext
 config.json
 ```
 
 Destructive operations must default to:
 
-```
+```	ext
 false
 ```
 
@@ -1112,17 +1112,17 @@ Do not perform destructive actions because configuration parsing failed.
 
 Unknown configuration keys should produce:
 
-```
+```	ext
 [WARNING] Unknown configuration option ignored.
 ```
 
 ---
 
-# 28. SAFE CONFIGURATION DEFAULTS
+## 28. SAFE CONFIGURATION DEFAULTS
 
 Example:
 
-```
+```	ext
 {
   "dry_run": true,
   "require_confirmation": true,
@@ -1146,7 +1146,7 @@ The exact schema must be finalized during Phase 1.
 
 ---
 
-# 29. LOGGING AND REDACTION
+## 29. LOGGING AND REDACTION
 
 Create rotating local logs.
 
@@ -1176,13 +1176,13 @@ Redact user-specific paths.
 
 For example:
 
-```
+```	ext
 C:\Users\Farmanullah\...
 ```
 
 should appear as:
 
-```
+```	ext
 %USERPROFILE%\...
 ```
 
@@ -1192,17 +1192,17 @@ Use log rotation and maximum file-size limits.
 
 ---
 
-# 30. TEMPORARY FILE SAFETY
+## 30. TEMPORARY FILE SAFETY
 
 Do not perform generic recursive deletion of:
 
-```
+```	ext
 C:\Windows\Temp
 ```
 
 or:
 
-```
+```	ext
 %TEMP%
 ```
 
@@ -1223,7 +1223,7 @@ Every deletion target must pass:
 
 ---
 
-# 31. FILE DELETION SAFETY
+## 31. FILE DELETION SAFETY
 
 Before moving anything:
 
@@ -1243,7 +1243,7 @@ Before moving anything:
 
 If any check fails:
 
-```
+```	ext
 [SKIPPED]
 ```
 
@@ -1251,7 +1251,7 @@ Never continue automatically.
 
 ---
 
-# 32. NO "PERFORMANCE HACKS"
+## 32. NO "PERFORMANCE HACKS"
 
 Do not implement:
 
@@ -1271,7 +1271,7 @@ The utility should perform conservative maintenance rather than manipulate Windo
 
 ---
 
-# 33. TESTING BEFORE CODE COMPLETION
+## 33. TESTING BEFORE CODE COMPLETION
 
 The project must include automated tests using:
 
@@ -1292,9 +1292,9 @@ Required tests include:
 ### CLI
 
 * default dry-run
-* `--dry-run`
-* `--apply`
-* `--yes`
+* `--dry-run`	ext
+* `--apply`	ext
+* `--yes`	ext
 * invalid arguments
 * mutually exclusive flags
 * typed confirmation requirements
@@ -1331,7 +1331,7 @@ Required tests include:
 ### Security
 
 * shell injection resistance
-* `shell=False`
+* `shell=False`	ext
 * command argument validation
 * timeout handling
 * sensitive log redaction
@@ -1350,7 +1350,7 @@ Verify that dry-run performs zero system modifications.
 
 ---
 
-# 34. DO NOT TEST DESTRUCTIVELY ON THE HOST
+## 34. DO NOT TEST DESTRUCTIVELY ON THE HOST
 
 Never test deletion, service changes, process termination, or rollback against the user's actual development environment.
 
@@ -1365,7 +1365,7 @@ The generated documentation must recommend testing in a VM or disposable environ
 
 ---
 
-# 35. AI EXECUTION SAFETY
+## 35. AI EXECUTION SAFETY
 
 Google Antigravity must ONLY generate and review the code.
 
@@ -1388,11 +1388,11 @@ Never allow an AI agent to automatically apply system modifications to the real 
 
 ---
 
-# 36. EXACT TERMINAL OUTPUT FORMAT
+## 36. EXACT TERMINAL OUTPUT FORMAT
 
 Use:
 
-```
+```	ext
 [CHECK]
 [SAFE]
 [WARNING]
@@ -1414,7 +1414,7 @@ Before every potentially destructive operation show:
 
 Example:
 
-```
+```	ext
 [WARNING]
 Operation: Quarantine npm cache files
 Target: <approved exact path>
@@ -1428,17 +1428,17 @@ Continue? [y/N]
 
 Default answer:
 
-```
+```	ext
 N
 ```
 
 ---
 
-# 37. STATUS REPORT
+## 37. STATUS REPORT
 
 After execution provide:
 
-```
+```	ext
 System Status
 -------------
 Windows version:
@@ -1476,7 +1476,7 @@ Do not invent performance improvements.
 
 ---
 
-# 38. FINAL SAFETY REVIEW TABLE
+## 38. FINAL SAFETY REVIEW TABLE
 
 Before declaring implementation complete, produce a table containing EVERY:
 
@@ -1502,7 +1502,7 @@ Before declaring implementation complete, produce a table containing EVERY:
 
 If there are zero entries in a category, explicitly state:
 
-```
+```	ext
 None.
 ```
 
@@ -1510,7 +1510,7 @@ No hidden system modification should remain outside this table.
 
 ---
 
-# 39. FINAL "DO NOT DO" AUDIT
+## 39. FINAL "DO NOT DO" AUDIT
 
 Before final output, explicitly verify that the implementation does NOT:
 
@@ -1535,7 +1535,7 @@ Before final output, explicitly verify that the implementation does NOT:
 * delete cookies
 * delete passwords
 * delete bookmarks
-* delete `.env`
+* delete `.env`	ext
 * delete Git repositories
 * delete project source
 * delete lock files
@@ -1555,22 +1555,22 @@ Before final output, explicitly verify that the implementation does NOT:
 * disable thermal protections
 * execute downloaded code
 * use encoded PowerShell payloads
-* use `eval`
-* use `exec`
-* use unsafe `shell=True`
+* use `eval`	ext
+* use `exec`	ext
+* use unsafe `shell=True`	ext
 * execute arbitrary user-supplied commands
 
 If any prohibited behavior appears, stop and report it instead of silently continuing.
 
 ---
 
-# 40. REQUIRED DELIVERABLES
+## 40. REQUIRED DELIVERABLES
 
 After Phase 1 approval and implementation, provide:
 
-1. `optimizer.py`
+1. `optimizer.py`	ext
 2. automated tests
-3. `config.json.example`
+3. `config.json.example`	ext
 4. `requirements.txt` only if genuinely necessary
 5. README
 6. CLI documentation
@@ -1590,11 +1590,11 @@ After Phase 1 approval and implementation, provide:
 
 ---
 
-# 41. FINAL PRINCIPLE
+## 41. FINAL PRINCIPLE
 
 When choosing between:
 
-```
+```	ext
 More automation
 vs.
 More safety
@@ -1604,7 +1604,7 @@ choose safety.
 
 When choosing between:
 
-```
+```	ext
 Permanent deletion
 vs.
 Quarantine
@@ -1614,7 +1614,7 @@ choose quarantine.
 
 When choosing between:
 
-```
+```	ext
 Guessing
 vs.
 Skipping
@@ -1624,7 +1624,7 @@ choose skipping.
 
 When choosing between:
 
-```
+```	ext
 Automatic elevation
 vs.
 User-controlled elevation
@@ -1634,7 +1634,7 @@ choose user-controlled elevation.
 
 When choosing between:
 
-```
+```	ext
 Aggressive optimization
 vs.
 Conservative maintenance
@@ -1650,8 +1650,7 @@ Most importantly:
 
 **Do not claim that the prompt, generated code, or utility is guaranteed safe. Demonstrate safety through design, testing, review, and controlled execution instead.**
 
-
-# PHASE 2 — IMPLEMENT THE WINDOWS 11 DEVELOPMENT OPTIMIZER
+## PHASE 2 — IMPLEMENT THE WINDOWS 11 DEVELOPMENT OPTIMIZER
 
 You have completed Phase 1: architecture, threat model, safety requirements, allowlists, protected paths, CLI design, rollback strategy, testing strategy, and failure-mode analysis.
 
@@ -1667,11 +1666,11 @@ Do NOT execute the generated optimizer after creating it.
 
 Do NOT run:
 
-* `python optimizer.py`
-* `py optimizer.py`
-* `optimizer.py --apply`
-* `optimizer.py --apply --yes`
-* `optimizer.py --purge-quarantine`
+* `python optimizer.py`	ext
+* `py optimizer.py`	ext
+* `optimizer.py --apply`	ext
+* `optimizer.py --apply --yes`	ext
+* `optimizer.py --purge-quarantine`	ext
 * rollback commands
 * cleanup commands
 * PowerShell commands that modify the system
@@ -1696,7 +1695,7 @@ The application must remain completely inactive until **I manually choose to run
 
 ---
 
-# 1. IMPLEMENT THE PRODUCT
+## 1. IMPLEMENT THE PRODUCT
 
 Create the complete production-quality Windows 11 Development Optimizer according to the approved Phase 1 design.
 
@@ -1720,7 +1719,7 @@ The application must be designed specifically for a developer workstation.
 
 ---
 
-# 2. MANUAL EXECUTION ONLY
+## 2. MANUAL EXECUTION ONLY
 
 This is extremely important.
 
@@ -1749,7 +1748,7 @@ After reboot, nothing from this application should automatically restart.
 
 ---
 
-# 3. DO NOT EXECUTE THE APPLICATION
+## 3. DO NOT EXECUTE THE APPLICATION
 
 After generating the project:
 
@@ -1781,7 +1780,7 @@ But **do not execute those commands yourself**.
 
 ---
 
-# 4. SAFE DEFAULT BEHAVIOR
+## 4. SAFE DEFAULT BEHAVIOR
 
 The application must default to:
 
@@ -1813,7 +1812,7 @@ It must NOT:
 
 ---
 
-# 5. APPLY MODE
+## 5. APPLY MODE
 
 Actual changes must require explicit command-line intent.
 
@@ -1842,7 +1841,7 @@ Never interpret an accidental or ambiguous argument as permission to perform des
 
 ---
 
-# 6. QUARANTINE INSTEAD OF DELETE
+## 6. QUARANTINE INSTEAD OF DELETE
 
 The optimizer must not permanently delete eligible files by default.
 
@@ -1875,7 +1874,7 @@ and a strong typed confirmation.
 
 ---
 
-# 7. FILE AGE SAFETY
+## 7. FILE AGE SAFETY
 
 Default cleanup eligibility:
 
@@ -1889,7 +1888,7 @@ Do not allow a configuration mistake to silently reduce the safety threshold.
 
 ---
 
-# 8. EXACT ALLOWLIST
+## 8. EXACT ALLOWLIST
 
 Use an **allowlist**, not a broad denylist.
 
@@ -1911,7 +1910,7 @@ Every cleanup target must be explicitly defined.
 
 ---
 
-# 9. PROTECTED PATHS
+## 9. PROTECTED PATHS
 
 Implement all protected paths from Phase 1.
 
@@ -1949,7 +1948,7 @@ Use normalized/resolved path validation.
 
 ---
 
-# 10. SYMLINK / JUNCTION / REPARSE-POINT SAFETY
+## 10. SYMLINK / JUNCTION / REPARSE-POINT SAFETY
 
 Never recursively follow arbitrary:
 
@@ -1966,7 +1965,7 @@ The resolved destination must remain inside the approved cleanup root.
 
 ---
 
-# 11. LOCKED / ACTIVE FILES
+## 11. LOCKED / ACTIVE FILES
 
 If a file or directory is:
 
@@ -1994,7 +1993,7 @@ Report it as:
 
 ---
 
-# 12. TOOL-SPECIFIC OPERATIONS
+## 12. TOOL-SPECIFIC OPERATIONS
 
 Use only the safe commands approved in Phase 1.
 
@@ -2069,7 +2068,7 @@ Do not automatically shut down or modify WSL.
 
 ---
 
-# 13. PROCESS MANAGEMENT
+## 13. PROCESS MANAGEMENT
 
 Do NOT implement broad process killing.
 
@@ -2098,7 +2097,7 @@ If process stopping is included as an optional feature, require:
 
 ---
 
-# 14. POWER PLAN
+## 14. POWER PLAN
 
 If power-plan optimization was approved in Phase 1:
 
@@ -2114,7 +2113,7 @@ Never claim rollback is possible for a setting that cannot be reliably restored.
 
 ---
 
-# 15. ROLLBACK MANIFEST
+## 15. ROLLBACK MANIFEST
 
 Every modifying run must generate a unique run ID.
 
@@ -2155,7 +2154,7 @@ Before rollback:
 
 ---
 
-# 16. SUBPROCESS SECURITY
+## 16. SUBPROCESS SECURITY
 
 All external commands must use safe subprocess execution.
 
@@ -2201,7 +2200,7 @@ Every external command must have:
 
 ---
 
-# 17. NETWORK SAFETY
+## 17. NETWORK SAFETY
 
 The optimizer must not require Internet access.
 
@@ -2225,7 +2224,7 @@ rather than attempting to download/install it.
 
 ---
 
-# 18. CONFIGURATION
+## 18. CONFIGURATION
 
 Create a validated configuration system.
 
@@ -2250,7 +2249,7 @@ Never interpret missing configuration as permission to perform destructive actio
 
 ---
 
-# 19. LOGGING
+## 19. LOGGING
 
 Implement safe logging.
 
@@ -2285,7 +2284,7 @@ Do not create excessive logs.
 
 ---
 
-# 20. FORBIDDEN OPERATIONS
+## 20. FORBIDDEN OPERATIONS
 
 The optimizer must NOT perform the following:
 
@@ -2331,7 +2330,7 @@ Do not add "performance tweaks" simply because they appear on Internet optimizat
 
 ---
 
-# 21. ADMINISTRATOR PRIVILEGES
+## 21. ADMINISTRATOR PRIVILEGES
 
 Never automatically elevate.
 
@@ -2361,7 +2360,7 @@ The optimizer itself must remain usable without administrator privileges whereve
 
 ---
 
-# 22. CLI
+## 22. CLI
 
 Implement the approved CLI.
 
@@ -2392,7 +2391,7 @@ Rules:
 
 ---
 
-# 23. OUTPUT
+## 23. OUTPUT
 
 Use the exact output tags:
 
@@ -2420,7 +2419,7 @@ Make output understandable to a beginner.
 
 ---
 
-# 24. TESTS
+## 24. TESTS
 
 Create a complete automated test suite.
 
@@ -2459,7 +2458,7 @@ Use temporary directories, mocks, and isolated test environments.
 
 ---
 
-# 25. PROJECT STRUCTURE
+## 25. PROJECT STRUCTURE
 
 Use a clean production-oriented structure, for example:
 
@@ -2508,7 +2507,7 @@ You may adjust the structure if Phase 1 established a better design.
 
 ---
 
-# 26. CODE QUALITY
+## 26. CODE QUALITY
 
 The implementation must be:
 
@@ -2532,7 +2531,7 @@ If you discover a new safety issue during implementation, **STOP implementation 
 
 ---
 
-# 27. DEPENDENCIES
+## 27. DEPENDENCIES
 
 Minimize third-party dependencies.
 
@@ -2554,7 +2553,7 @@ Do not use remote packages dynamically at runtime.
 
 ---
 
-# 28. NO AUTOMATIC EXECUTION BY ANTIGRAVITY
+## 28. NO AUTOMATIC EXECUTION BY ANTIGRAVITY
 
 This rule overrides convenience.
 
@@ -2562,8 +2561,8 @@ After generating the project, DO NOT:
 
 * run the program
 * run the tests
-* run `pip install`
-* run `python`
+* run `pip install`	ext
+* run `python`	ext
 * run PowerShell
 * run cleanup commands
 * run Docker commands
@@ -2578,7 +2577,7 @@ You may perform **static inspection of the generated source code**.
 
 ---
 
-# 29. FINAL RESPONSE AFTER IMPLEMENTATION
+## 29. FINAL RESPONSE AFTER IMPLEMENTATION
 
 When implementation is complete, DO NOT say:
 
@@ -2625,7 +2624,7 @@ Do NOT execute those commands yourself.
 
 ---
 
-# 30. STOP CONDITION
+## 30. STOP CONDITION
 
 After creating and statically reviewing the project, STOP.
 

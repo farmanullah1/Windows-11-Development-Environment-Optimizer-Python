@@ -3,9 +3,11 @@
 A security-first, allowlist-based, fail-closed development environment maintenance utility in Python 3 for Windows 11 workstations.
 
 ## Overview
+
 This utility provides conservative, measurable, user-approved maintenance specifically tailored for Windows 11 laptops used for development (.NET, Node.js/React, Python, Docker, SQL Server, Brave, VS Code).
 
 The utility **never promises a guaranteed performance improvement**. Its priorities are:
+
 1. User data safety
 2. System stability
 3. Development-work safety
@@ -17,6 +19,7 @@ The utility **never promises a guaranteed performance improvement**. Its priorit
 ---
 
 ## Key Safety Architecture
+
 - **Fail-Closed:** Any ambiguous path, locked file, unknown process, or malformed argument results in skipping or safe termination with zero modifications.
 - **Strict Allowlist:** Never performs generic recursive scans for terms like `temp` or `cache`. Only exact, predefined paths and official tools are handled.
 - **Quarantine over Permanent Deletion:** Eligible files are moved to `%LOCALAPPDATA%\Win11DevOptimizer\quarantine\<run-id>\` with recorded SHA-256 hashes and rollback manifests.
@@ -28,6 +31,7 @@ The utility **never promises a guaranteed performance improvement**. Its priorit
 ---
 
 ## Directory Structure
+
 ```text
 Win11DevOptimizer/
 ├── optimizer.py           # CLI entry point and execution coordinator
@@ -65,18 +69,23 @@ Win11DevOptimizer/
 ---
 
 ## Manual Next Steps (User Execution Only)
+
 The application has been generated and statically verified. Per instructions, **it has not been executed on your machine**.
 
 To inspect the system safely in read-only / dry-run mode:
+
 ```powershell
 python optimizer.py
 ```
+
 or explicitly:
+
 ```powershell
 python optimizer.py --dry-run
 ```
 
 To run diagnostics:
+
 ```powershell
 python optimizer.py --doctor
 python optimizer.py --status

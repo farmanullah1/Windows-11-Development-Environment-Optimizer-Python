@@ -1,10 +1,10 @@
 """Strict CLI parsing with mutually exclusive flags and safe default plan mode."""
 
 import argparse
-from typing import Tuple
+from typing import Tuple, Optional, List
 
 
-def parse_arguments() -> Tuple[argparse.Namespace, bool]:
+def parse_arguments(cli_args: Optional[List[str]] = None) -> Tuple[argparse.Namespace, bool]:
     """
     Parses CLI arguments under fail-closed contract.
     Returns (args, is_valid).
@@ -69,7 +69,7 @@ def parse_arguments() -> Tuple[argparse.Namespace, bool]:
     )
 
     try:
-        args = parser.parse_args()
+        args = parser.parse_args(cli_args)
         return args, True
     except SystemExit:
         return argparse.Namespace(), False

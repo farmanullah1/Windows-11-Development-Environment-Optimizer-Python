@@ -12,7 +12,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
     "permanent_delete": False,
     "process_termination": False,
     "service_changes": False,
-    "docker_cleanup": false_if_any := False,
+    "docker_cleanup": False,
     "sql_server_changes": False,
     "browser_cache_cleanup": False,
     "power_plan_change": False,

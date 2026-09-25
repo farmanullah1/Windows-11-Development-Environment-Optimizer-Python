@@ -22,7 +22,7 @@ def calculate_sha256(file_path: Path) -> str:
 
 
 def get_quarantine_root() -> Path:
-    """Returns %LOCALAPPDATA%\Win11DevOptimizer\quarantine."""
+    r"""Returns %LOCALAPPDATA%\Win11DevOptimizer\quarantine."""
     local_app_data = os.environ.get("LOCALAPPDATA", "")
     if not local_app_data:
         local_app_data = str(Path.home() / "AppData" / "Local")
@@ -65,7 +65,11 @@ class QuarantineManager:
             if not source_path.is_file():
                 return False, "Not a regular file"
 
-            file_size = source_path.stat().st_size
+            file_stat = source_path.stat()
+            file_size = file_stat.st_size
+            file_mtime = file_stat.st_mtime
+            resolved_orig = str(source_path.resolve())
+
             self.quarantine_dir.mkdir(parents=True, exist_ok=True)
 
             if not check_free_space(self.quarantine_dir, file_size):
@@ -81,11 +85,11 @@ class QuarantineManager:
             shutil.move(str(source_path), str(dest_path))
 
             self.manifest["files"].append({
-                "original_path": str(source_path.resolve()),
+                "original_path": resolved_orig,
                 "quarantine_path": str(dest_path.resolve()),
                 "size_bytes": file_size,
                 "sha256": file_hash,
-                "mtime": source_path.stat().st_mtime if dest_path.exists() else 0,
+                "mtime": file_mtime,
             })
             self._save_manifest()
             return True, str(dest_path)

@@ -28,11 +28,10 @@ def get_protected_paths() -> Set[Path]:
         if val:
             protected.add(Path(val).resolve())
 
-    # User Profile personal folders
+    # User Profile personal folders (entire tree protected)
     userprofile = os.environ.get("USERPROFILE")
     if userprofile:
         up = Path(userprofile).resolve()
-        protected.add(up)
         for folder in ["Desktop", "Documents", "Downloads", "Pictures", "Videos", "Music", "OneDrive"]:
             protected.add(up / folder)
 
@@ -78,6 +77,12 @@ def is_path_protected(target: Path) -> bool:
     """Evaluates whether target path is protected or located within a protected hierarchy."""
     try:
         real_target = target.resolve()
+
+        # Protect userprofile root directory itself
+        userprofile = os.environ.get("USERPROFILE")
+        if userprofile and real_target == Path(userprofile).resolve():
+            return True
+
         # Protect critical dev files and directories by name regardless of path
         name_lower = real_target.name.lower()
         if name_lower in [".git", ".github", ".env", "package.json", "package-lock.json", "yarn.lock", "pnpm-lock.yaml"]:

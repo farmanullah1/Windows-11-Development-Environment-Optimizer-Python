@@ -2645,3 +2645,1566 @@ Not:
 **BUILD → RUN → TEST → CLEAN MY COMPUTER.**
 
 I will personally decide when the application is executed.
+
+
+
+# PHASE 2 — BUILD THE WINDOWS 11 DEVELOPMENT OPTIMIZER
+
+## CREATE THE COMPLETE PRODUCT — DO NOT EXECUTE ANYTHING
+
+You have already completed Phase 1: requirements analysis, architecture, threat model, safety model, allowlist design, protected-path design, CLI design, quarantine strategy, rollback strategy, configuration design, logging strategy, privilege model, failure-mode analysis, and testing strategy.
+
+I am now explicitly authorizing you to proceed with **PHASE 2: IMPLEMENTATION**.
+
+However, this approval has a very specific scope:
+
+> **YOU ARE AUTHORIZED TO CREATE THE COMPLETE APPLICATION/PRODUCT AND ALL PROJECT FILES.**
+>
+> **YOU ARE NOT AUTHORIZED TO RUN, EXECUTE, INSTALL, TEST-EXECUTE, OR APPLY THE APPLICATION TO MY WINDOWS COMPUTER.**
+
+The implementation must be complete enough that I can manually review it and later decide when to run it.
+
+---
+
+# 1. ABSOLUTE EXECUTION RESTRICTION
+
+This is the most important requirement in this prompt.
+
+During this phase, you may:
+
+* create source-code files
+* create configuration files
+* create documentation
+* create test files
+* create project directories
+* inspect the source code you generated
+* perform static analysis/review of the generated code
+* explain how the application should be manually installed and executed later
+
+You may NOT:
+
+* run the application
+* execute the generated Python code
+* execute the generated test suite
+* install Python packages
+* execute `pip install`
+* execute `python`
+* execute `py`
+* execute PowerShell commands that modify the computer
+* execute CMD commands that modify the computer
+* execute npm commands
+* execute Docker commands
+* execute WSL commands
+* execute SQL commands against my system
+* modify Windows settings
+* modify the registry
+* modify services
+* terminate processes
+* change the power plan
+* clean caches
+* delete files
+* move files into quarantine
+* purge quarantine
+* perform rollback
+* request administrator elevation
+* create scheduled tasks
+* create Windows services
+* create startup entries
+* create registry Run entries
+* create background processes
+* create persistence mechanisms
+
+### DO NOT EXECUTE THE APPLICATION AFTER GENERATING IT.
+
+### DO NOT AUTOMATICALLY TEST-EXECUTE THE APPLICATION.
+
+### DO NOT AUTOMATICALLY INSTALL ITS DEPENDENCIES.
+
+### DO NOT AUTOMATICALLY "VERIFY" IT BY RUNNING IT.
+
+Static code review is allowed.
+
+Execution is not allowed.
+
+---
+
+# 2. DO NOT INTERPRET "IMPLEMENTATION COMPLETE" AS PERMISSION TO RUN
+
+When implementation is finished, STOP.
+
+Do not assume that:
+
+* "build complete"
+* "implementation complete"
+* "project generated"
+* "code generated"
+* "tests created"
+* "dependencies listed"
+* "ready"
+* "done"
+
+means that you have permission to execute the application.
+
+It does not.
+
+The application must remain unexecuted until I give a separate, explicit instruction.
+
+---
+
+# 3. EXPLICIT APPROVAL MODEL
+
+This is a two-step authorization model.
+
+### Authorization 1 — Already granted
+
+I am granting you permission to:
+
+**CREATE THE SOFTWARE.**
+
+### Authorization 2 — NOT granted
+
+I am NOT granting permission to:
+
+**EXECUTE THE SOFTWARE.**
+
+Execution will require a separate future instruction from me.
+
+Do not combine these two permissions.
+
+---
+
+# 4. PRODUCT GOAL
+
+Build a production-oriented Windows 11 development-machine optimization utility.
+
+The utility is intended for a developer workstation using technologies/tools such as:
+
+* Windows 11
+* Python
+* Node.js
+* npm
+* pip
+* .NET
+* NuGet
+* Docker
+* Docker Desktop
+* WSL
+* SQL Server
+* Postman
+* Brave Browser
+* Google Antigravity
+* VS Code and other development tools
+
+The goal is to provide **controlled diagnostics and optional cleanup of specifically approved development-related temporary/cache data** while minimizing the possibility of damaging the user's development environment.
+
+This is NOT a generic Windows "speed booster."
+
+Do not add random Internet optimization tricks.
+
+Do not add undocumented "performance hacks."
+
+Do not make aggressive system modifications.
+
+---
+
+# 5. MANUAL-RUN ONLY
+
+The application must operate only when manually launched by the user.
+
+It must NOT create persistence.
+
+Never implement:
+
+* Windows Startup registration
+* Scheduled Tasks
+* Windows Services
+* registry Run keys
+* background daemons
+* startup scripts
+* login hooks
+* event-triggered execution
+* continuous monitoring
+* automatic timers
+* automatic cleanup
+* automatic optimization
+
+When the application exits, it must stop completely.
+
+After Windows restarts, the application must remain inactive unless I manually start it.
+
+---
+
+# 6. WINDOWS 11 ONLY
+
+The application must verify that it is running on Windows 11.
+
+If the operating system is unsupported:
+
+```text
+[ERROR] Unsupported operating system.
+[SKIPPED] No system modifications will be performed.
+```
+
+Fail closed.
+
+Do not attempt compatibility workarounds that could modify another operating system.
+
+---
+
+# 7. FAIL-CLOSED DESIGN
+
+If anything is uncertain, unexpected, invalid, inaccessible, or unsafe:
+
+**DO NOTHING.**
+
+Examples:
+
+* invalid command-line arguments
+* malformed configuration
+* unknown cleanup path
+* unexpected filesystem structure
+* insufficient permissions
+* inaccessible file
+* locked file
+* path resolution failure
+* suspicious symlink
+* junction/reparse point
+* missing executable
+* unexpected subprocess result
+* unsupported Windows version
+* ambiguous configuration
+* insufficient quarantine space
+* manifest failure
+
+The application should skip the operation and report the reason.
+
+Never "try something else" that is broader or more destructive.
+
+---
+
+# 8. SAFE DEFAULT
+
+The application must default to a non-destructive mode.
+
+If the user runs:
+
+```text
+python optimizer.py
+```
+
+the application must NOT perform cleanup.
+
+It should display status, help, diagnostics, or a safe plan.
+
+No file deletion.
+
+No file movement.
+
+No process termination.
+
+No Windows setting changes.
+
+No registry changes.
+
+No service changes.
+
+No network changes.
+
+No browser changes.
+
+No Docker configuration changes.
+
+No WSL changes.
+
+---
+
+# 9. DRY-RUN MODE
+
+Support:
+
+```text
+python optimizer.py --dry-run
+```
+
+Dry-run means:
+
+> Inspect and report what WOULD happen without performing the action.
+
+Dry-run must NOT:
+
+* delete files
+* move files
+* quarantine files
+* purge files
+* change settings
+* stop processes
+* modify services
+* modify registry
+* change power plans
+* modify Docker
+* modify WSL
+* modify browser data
+
+A dry-run must not accidentally perform the operation it is describing.
+
+---
+
+# 10. APPLY MODE
+
+Actual modifications must require explicit user intent.
+
+Support:
+
+```text
+python optimizer.py --apply
+```
+
+But `--apply` alone must not automatically authorize high-risk/destructive operations.
+
+For destructive categories require:
+
+```text
+--apply --yes
+```
+
+and, where required, an additional typed confirmation.
+
+`--yes` must NOT bypass high-risk confirmation.
+
+Do not treat arbitrary text or accidental input as confirmation.
+
+---
+
+# 11. STRICT COMMAND-LINE INTERFACE
+
+Implement:
+
+```text
+--help
+--version
+--status
+--doctor
+--plan
+--plan --json
+--dry-run
+--apply
+--yes
+--rollback <run-id>
+--purge-quarantine
+```
+
+Rules:
+
+* unknown arguments = error + no changes
+* invalid combinations = error + no changes
+* `--dry-run` and `--apply` are mutually exclusive
+* no arguments = safe status/plan behavior
+* destructive actions require explicit confirmation
+* purge requires separate confirmation
+* rollback requires explicit run ID
+* malformed run ID = no changes
+
+---
+
+# 12. QUARANTINE INSTEAD OF PERMANENT DELETION
+
+The default cleanup mechanism must be quarantine, not permanent deletion.
+
+Use:
+
+```text
+%LOCALAPPDATA%\Win11DevOptimizer\quarantine\<run-id>\
+```
+
+Every modifying run gets a unique run ID.
+
+Example:
+
+```text
+RUN-20260925-153000
+```
+
+Before moving an item into quarantine:
+
+1. Verify source path.
+2. Resolve the path safely.
+3. Verify it belongs to an approved allowlist.
+4. Verify it is not protected.
+5. Verify it satisfies the age requirement.
+6. Verify it is not locked/in use.
+7. Verify it is not a symlink/junction/reparse point.
+8. Verify destination safety.
+9. Verify destination collision handling.
+10. Verify sufficient free disk space.
+11. Record the operation.
+12. Move the item only after all checks succeed.
+
+Never silently overwrite an existing quarantine item.
+
+---
+
+# 13. PERMANENT PURGE
+
+Permanent deletion must be a separate operation:
+
+```text
+python optimizer.py --purge-quarantine
+```
+
+This must require strong confirmation.
+
+The application must clearly explain:
+
+* what will be permanently deleted
+* where it is located
+* which run it belongs to
+* that permanent deletion cannot be rolled back by the optimizer
+
+Never claim permanent deletion is reversible.
+
+---
+
+# 14. FILE AGE SAFETY
+
+Default cleanup rule:
+
+> Only consider files/directories whose modification time is at least 7 days old.
+
+Do not clean recently modified files by default.
+
+Do not silently lower this threshold.
+
+If a configurable threshold is supported, enforce a safety floor.
+
+---
+
+# 15. LOCKED / IN-USE FILES
+
+If a file is:
+
+* locked
+* open
+* actively being used
+* inaccessible
+* permission denied
+* changing while inspected
+
+skip it.
+
+Do not:
+
+* force-close it
+* take ownership
+* change permissions merely to delete it
+* terminate the owning process
+* reboot Windows
+* bypass the lock
+
+Report:
+
+```text
+[SKIPPED] File is currently in use.
+```
+
+---
+
+# 16. SYMLINK / JUNCTION / REPARSE POINT SAFETY
+
+Never blindly follow:
+
+* symbolic links
+* junctions
+* mount points
+* Windows reparse points
+
+Do not allow a cleanup operation to escape its approved root.
+
+Use normalized/resolved paths and explicit containment checks.
+
+A path must remain inside its approved cleanup root after resolution.
+
+---
+
+# 17. EXACT ALLOWLIST CLEANUP
+
+Use an explicit **allowlist**.
+
+Do NOT use a broad strategy such as:
+
+> "Delete temporary files everywhere."
+
+Do NOT scan the entire drive looking for files that appear unnecessary.
+
+Do NOT use:
+
+```text
+C:\
+C:\Users\
+C:\Windows\
+```
+
+as generic cleanup roots.
+
+Every cleanup location must be explicitly defined and approved.
+
+---
+
+# 18. PROTECTED PATHS
+
+Protect at minimum:
+
+```text
+C:\Windows
+C:\Program Files
+C:\Program Files (x86)
+C:\ProgramData
+
+%USERPROFILE%
+%USERPROFILE%\Desktop
+%USERPROFILE%\Documents
+%USERPROFILE%\Downloads
+%USERPROFILE%\OneDrive
+
+.git
+.env
+
+SQL Server data directories
+Docker Desktop data
+WSL VHDX files
+browser profile directories
+VS Code workspaceStorage
+Windows Installer
+WinSxS
+Prefetch
+SoftwareDistribution
+Microsoft Defender data
+```
+
+Also protect equivalent/resolved paths.
+
+Do not rely only on simple string matching.
+
+---
+
+# 19. EXPLICITLY FORBIDDEN OPERATIONS
+
+Do NOT implement automatic operations for:
+
+### Windows/system
+
+* registry cleanup
+* registry optimization
+* registry modification
+* service disabling
+* service reconfiguration
+* Windows Defender modification
+* UAC modification
+* firewall modification
+* DNS modification
+* proxy modification
+* hosts-file modification
+* environment-variable modification
+* Secure Boot modification
+* driver modification
+* BIOS modification
+* UEFI modification
+* overclocking
+* undervolting
+* thermal-limit modification
+* pagefile modification
+* hibernation modification
+* indexing modification
+* SysMain modification
+* Prefetch deletion
+* WinSxS deletion
+* Windows Installer cleanup
+* SoftwareDistribution deletion
+* Windows Update manipulation
+
+### Browser
+
+Do not modify:
+
+* browser policies
+* extensions
+* cookies
+* sessions
+* saved passwords
+* profiles
+* history
+* bookmarks
+
+### Cloud
+
+Do not modify:
+
+* OneDrive
+* cloud synchronization
+* cloud files
+
+### Development environments
+
+Do not automatically:
+
+* delete Git repositories
+* delete `.git`
+* delete `.env`
+* modify source code
+* modify project files
+* modify package manifests
+* modify lock files
+* modify SQL Server databases
+* modify Docker Desktop configuration
+* delete Docker volumes
+* delete Docker containers
+* delete Docker images
+* shut down WSL
+
+### Hardware
+
+Do not modify:
+
+* BIOS
+* UEFI
+* firmware
+* drivers
+* CPU settings
+* GPU settings
+* voltage
+* thermal controls
+
+---
+
+# 20. SAFE TOOL-SPECIFIC OPERATIONS
+
+Use only operations explicitly approved in Phase 1.
+
+## npm
+
+Prefer inspection:
+
+```text
+npm cache verify
+```
+
+Do not automatically run:
+
+```text
+npm cache clean --force
+```
+
+If supported, destructive npm cache cleaning must be explicitly opt-in.
+
+---
+
+## pip
+
+If cache cleanup is implemented, make:
+
+```text
+pip cache purge
+```
+
+explicitly opt-in.
+
+Do not automatically run it.
+
+---
+
+## NuGet
+
+If implemented:
+
+```text
+dotnet nuget locals http-cache --clear
+```
+
+must be explicitly selected.
+
+Do not clear other NuGet locations unless separately approved.
+
+---
+
+## Docker
+
+Default operation:
+
+```text
+docker system df
+```
+
+for inspection only.
+
+Do NOT automatically run:
+
+```text
+docker system prune
+docker system prune -a
+docker volume prune
+docker image prune
+docker container prune
+```
+
+Do not delete Docker volumes, containers, or images by default.
+
+---
+
+## WSL
+
+Do not automatically shut down WSL.
+
+Do not modify WSL distributions.
+
+Do not touch WSL VHDX files.
+
+---
+
+# 21. PROCESS MANAGEMENT
+
+Do not implement broad process termination.
+
+Never use:
+
+```text
+taskkill /F /IM *
+```
+
+or equivalent broad termination.
+
+Do not terminate arbitrary processes.
+
+Do not terminate:
+
+* Windows processes
+* security software
+* SQL Server
+* Docker
+* WSL
+* browsers
+* IDEs
+* development tools
+
+unless an exact process-management feature has been separately approved.
+
+Prefer diagnostics.
+
+---
+
+# 22. POWER PLAN
+
+If power-plan functionality was approved in Phase 1:
+
+* it must be opt-in
+* it must never run automatically
+* record the previous state
+* record the new state
+* provide rollback
+* verify current state before rollback
+* do not overwrite a user change made after optimization
+
+If reliable rollback cannot be guaranteed, do not implement the modification.
+
+---
+
+# 23. ROLLBACK
+
+Every modifying run must have a unique run ID.
+
+Create a rollback manifest containing:
+
+* run ID
+* timestamp
+* application version
+* operation
+* original path
+* quarantine path
+* previous setting
+* new setting
+* command
+* result
+* skipped items
+* errors
+* rollback information
+
+Rollback must:
+
+1. validate the manifest
+2. verify the current state
+3. detect conflicts
+4. avoid overwriting newer user data
+5. restore only when safe
+6. skip conflicting items
+7. log every result
+
+Never claim that permanently deleted files can be restored.
+
+---
+
+# 24. SUBPROCESS SECURITY
+
+All subprocess execution must use safe argument lists.
+
+Use:
+
+```python
+subprocess.run(
+    [...],
+    shell=False,
+    timeout=...,
+    ...
+)
+```
+
+Never use:
+
+```python
+shell=True
+```
+
+Never use:
+
+```python
+os.system()
+eval()
+exec()
+```
+
+Never construct shell commands from unsanitized user input.
+
+Every executable must be explicitly identified.
+
+Every subprocess must have:
+
+* timeout
+* captured output
+* error handling
+* controlled arguments
+* predictable environment
+
+---
+
+# 25. NO REMOTE CODE
+
+Never:
+
+* download executable code
+* download Python scripts
+* execute remote scripts
+* dynamically import downloaded modules
+* use remote code execution
+* fetch configuration from an unknown server
+* install packages automatically
+
+Do not use PowerShell encoded commands.
+
+Do not hide commands from the user.
+
+---
+
+# 26. NETWORK
+
+The optimizer should not require Internet access.
+
+Do not:
+
+* send telemetry
+* upload logs
+* upload system information
+* send diagnostics to external servers
+* download dependencies automatically
+
+If a required executable is unavailable, report:
+
+```text
+[SKIPPED]
+```
+
+Do not automatically install it.
+
+---
+
+# 27. ADMINISTRATOR PRIVILEGES
+
+Never automatically elevate.
+
+Do not automatically trigger UAC.
+
+Do not use `runas` automatically.
+
+If administrator access would be required:
+
+```text
+[SKIPPED] Administrator privileges are required.
+```
+
+Explain:
+
+* why
+* what would be changed
+* what command the user could manually execute
+
+The application should continue safely where possible.
+
+---
+
+# 28. CONFIGURATION
+
+Implement validated configuration.
+
+If configuration is:
+
+* missing
+* invalid
+* malformed
+* corrupted
+
+use safe defaults.
+
+Unknown keys should produce warnings.
+
+Destructive options must default to:
+
+```text
+false
+```
+
+Never interpret missing configuration as permission to perform a destructive action.
+
+---
+
+# 29. LOGGING
+
+Implement safe logging.
+
+Never log:
+
+* passwords
+* API keys
+* access tokens
+* refresh tokens
+* cookies
+* session tokens
+* database passwords
+* `.env` contents
+* credentials
+* authentication headers
+
+Where appropriate, redact:
+
+```text
+C:\Users\<username>
+```
+
+to:
+
+```text
+%USERPROFILE%
+```
+
+Implement log rotation.
+
+Avoid excessive logging.
+
+---
+
+# 30. OUTPUT FORMAT
+
+Use these tags:
+
+```text
+[CHECK]
+[SAFE]
+[WARNING]
+[SKIPPED]
+[ACTION]
+[SUCCESS]
+[ERROR]
+```
+
+Example:
+
+```text
+[CHECK] Windows 11 detected
+[SAFE] Dry-run mode
+[CHECK] Checking approved npm cache
+[SKIPPED] File is locked
+[WARNING] Administrator privileges would be required
+```
+
+Output must be understandable to a beginner.
+
+---
+
+# 31. DIAGNOSTICS
+
+Implement a safe diagnostics command:
+
+```text
+python optimizer.py --doctor
+```
+
+It should inspect things such as:
+
+* supported Windows version
+* Python version
+* available tools
+* permissions
+* configuration validity
+* available disk space
+* quarantine directory availability
+
+Diagnostics must NOT modify the system.
+
+---
+
+# 32. STATUS
+
+Implement:
+
+```text
+python optimizer.py --status
+```
+
+It should provide informational status only.
+
+It must not perform optimization.
+
+---
+
+# 33. JSON PLAN
+
+Implement:
+
+```text
+python optimizer.py --plan --json
+```
+
+The JSON output should describe:
+
+* detected environment
+* eligible cleanup categories
+* candidate items
+* skipped items
+* reasons
+* required privileges
+* proposed actions
+* warnings
+
+It must not execute the actions.
+
+---
+
+# 34. TEST SUITE
+
+Create tests for:
+
+* Windows 11 detection
+* unsupported OS
+* CLI validation
+* configuration validation
+* allowlist enforcement
+* protected-path enforcement
+* path traversal protection
+* symlink handling
+* junction handling
+* reparse-point handling
+* locked files
+* file-age filtering
+* quarantine
+* quarantine collisions
+* rollback
+* manifest validation
+* dry-run
+* confirmation logic
+* subprocess safety
+* shell-injection resistance
+* timeout handling
+* log redaction
+* admin-required behavior
+* fail-closed behavior
+
+Use:
+
+* temporary directories
+* mocks
+* fixtures
+* isolated test data
+
+Never write tests that intentionally modify the real Windows installation.
+
+---
+
+# 35. IMPORTANT — DO NOT RUN THE TESTS
+
+Create the tests.
+
+Do NOT execute the tests.
+
+Do NOT run:
+
+```text
+pytest
+python -m pytest
+python -m unittest
+```
+
+Do not run any test command.
+
+Static inspection of test code is allowed.
+
+---
+
+# 36. PROJECT STRUCTURE
+
+Create a clean production-oriented structure.
+
+Use this as the baseline:
+
+```text
+Win11DevOptimizer/
+│
+├── optimizer.py
+├── requirements.txt
+├── README.md
+├── LICENSE
+│
+├── config/
+│   └── default_config.json
+│
+├── src/
+│   ├── __init__.py
+│   ├── cli.py
+│   ├── config.py
+│   ├── safety.py
+│   ├── paths.py
+│   ├── quarantine.py
+│   ├── rollback.py
+│   ├── process_manager.py
+│   ├── power.py
+│   ├── cache_manager.py
+│   ├── diagnostics.py
+│   ├── logging_utils.py
+│   └── subprocess_utils.py
+│
+├── tests/
+│   ├── test_cli.py
+│   ├── test_safety.py
+│   ├── test_paths.py
+│   ├── test_quarantine.py
+│   ├── test_rollback.py
+│   ├── test_config.py
+│   └── test_subprocess_security.py
+│
+└── docs/
+    ├── SAFETY.md
+    ├── THREAT_MODEL.md
+    ├── OPERATIONS.md
+    └── ROLLBACK.md
+```
+
+You may improve the structure if there is a clear technical reason.
+
+Do not add unnecessary components.
+
+---
+
+# 37. CODE QUALITY
+
+The implementation must be:
+
+* production-oriented
+* modular
+* readable
+* maintainable
+* defensive
+* fail-closed
+* documented
+* explicit
+* deterministic
+
+Use type hints where appropriate.
+
+Use clear error handling.
+
+Do not hide failures.
+
+Do not silently continue after a safety validation failure.
+
+---
+
+# 38. DEPENDENCIES
+
+Minimize dependencies.
+
+Prefer the Python standard library where practical.
+
+If external dependencies are required:
+
+1. list them in `requirements.txt`
+2. explain why each is required
+3. document installation instructions
+
+Do NOT install them.
+
+Do NOT run pip.
+
+---
+
+# 39. NO AUTO-MODIFICATION OUTSIDE THE PROJECT
+
+During implementation, only create/modify files belonging to the project you are building.
+
+Do not modify:
+
+* Windows system files
+* user documents
+* browser data
+* developer projects
+* SQL Server data
+* Docker data
+* WSL data
+* registry
+* services
+* environment variables
+* firewall
+* network configuration
+* system settings
+
+The optimizer itself must also enforce these boundaries when eventually executed.
+
+---
+
+# 40. NO HIDDEN FEATURES
+
+Do not secretly add:
+
+* telemetry
+* analytics
+* remote connections
+* automatic updates
+* background services
+* scheduled tasks
+* startup behavior
+* system monitoring
+* keylogging
+* credential collection
+* browser data collection
+* environment-variable collection
+* network scanning
+
+The product must do exactly what is documented.
+
+---
+
+# 41. SECURITY REVIEW BEFORE STOPPING
+
+Before you finish Phase 2, perform a **STATIC REVIEW ONLY**.
+
+Do not execute anything.
+
+Review the generated code for:
+
+### Filesystem
+
+* unsafe deletion
+* unsafe movement
+* path traversal
+* protected-path bypass
+* symlink traversal
+* junction traversal
+* reparse-point traversal
+* quarantine collision
+* insufficient free space
+
+### Processes
+
+* broad process termination
+* unsafe process matching
+* forced termination
+
+### Commands
+
+* `shell=True`
+* `os.system`
+* `eval`
+* `exec`
+* encoded PowerShell
+* hidden commands
+* dynamic command construction
+
+### Privileges
+
+* automatic elevation
+* UAC triggers
+* `runas`
+* service creation
+
+### Persistence
+
+* scheduled tasks
+* startup entries
+* registry Run keys
+* services
+* background processes
+
+### Network
+
+* downloads
+* telemetry
+* remote code
+* unexpected HTTP requests
+
+### Secrets
+
+* passwords
+* tokens
+* cookies
+* API keys
+* `.env` contents
+* database credentials
+
+### Rollback
+
+* incorrect assumptions
+* overwriting newer files
+* restoring stale settings
+
+### Configuration
+
+* unsafe defaults
+* destructive defaults
+* unknown configuration behavior
+
+If you discover a serious safety issue:
+
+**DO NOT silently work around it.**
+
+Clearly report the issue and stop the affected implementation.
+
+---
+
+# 42. STATIC SAFETY REVIEW TABLE
+
+Before finishing, produce a table like:
+
+| Area                     | Implementation | Risk | Mitigation | Static Review Result |
+| ------------------------ | -------------- | ---- | ---------- | -------------------- |
+| File cleanup             | ...            | ...  | ...        | ...                  |
+| Quarantine               | ...            | ...  | ...        | ...                  |
+| Process management       | ...            | ...  | ...        | ...                  |
+| Power plan               | ...            | ...  | ...        | ...                  |
+| Administrator privileges | ...            | ...  | ...        | ...                  |
+| Subprocesses             | ...            | ...  | ...        | ...                  |
+| Configuration            | ...            | ...  | ...        | ...                  |
+| Logging                  | ...            | ...  | ...        | ...                  |
+| Rollback                 | ...            | ...  | ...        | ...                  |
+| Persistence              | ...            | ...  | ...        | ...                  |
+| Network                  | ...            | ...  | ...        | ...                  |
+
+Do not claim that the product is guaranteed safe.
+
+Report what was actually inspected.
+
+---
+
+# 43. DO NOT MAKE UNSUPPORTED SAFETY CLAIMS
+
+Never state:
+
+> "This application is guaranteed safe."
+
+Never state:
+
+> "This cannot harm your laptop."
+
+Never state:
+
+> "This will definitely not break Windows."
+
+Never state:
+
+> "The optimizer is risk-free."
+
+Never state:
+
+> "The code is guaranteed harmless."
+
+Instead use factual statements such as:
+
+> "The implementation includes the specified safety controls."
+
+> "The application was not executed."
+
+> "The test suite was created but not executed."
+
+> "Static review identified the following..."
+
+Safety must be demonstrated through design, validation, testing, and controlled execution—not guaranteed by wording.
+
+---
+
+# 44. FINAL RESPONSE REQUIREMENTS
+
+After creating the project, provide:
+
+## A. Project structure
+
+Show the complete structure.
+
+## B. Files created
+
+List every file.
+
+## C. Dependencies
+
+List every dependency and explain why it exists.
+
+## D. Static safety review
+
+Explain what was inspected.
+
+## E. Known limitations
+
+Clearly identify anything that has not been verified because execution was prohibited.
+
+## F. Manual installation instructions
+
+Give commands that I can manually review and run later.
+
+## G. Manual dry-run instructions
+
+Give commands that I can manually execute later.
+
+## H. Manual apply instructions
+
+Give commands that I can manually execute later.
+
+## I. Manual rollback instructions
+
+Give commands that I can manually execute later.
+
+## J. Manual quarantine purge instructions
+
+Give commands that I can manually execute later.
+
+---
+
+# 45. REQUIRED "NOT EXECUTED" STATEMENT
+
+Your final response must explicitly state:
+
+```text
+[SAFE]
+Application execution was not performed.
+
+[SAFE]
+Automated tests were not executed.
+
+[SAFE]
+Dependencies were not automatically installed.
+
+[SAFE]
+No Windows system settings were modified.
+
+[SAFE]
+No registry changes were made.
+
+[SAFE]
+No services were modified.
+
+[SAFE]
+No processes were terminated.
+
+[SAFE]
+No cleanup operation was performed.
+
+[SAFE]
+No quarantine purge was performed.
+
+[SAFE]
+No rollback operation was performed.
+
+[SAFE]
+No administrator elevation was requested.
+
+[SAFE]
+No persistence mechanism was created by the optimizer.
+```
+
+Only state these things if they are actually true.
+
+---
+
+# 46. STOP CONDITION
+
+After:
+
+1. creating the complete project
+2. creating the source code
+3. creating configuration
+4. creating documentation
+5. creating tests
+6. performing static code review
+7. reporting the results
+
+**STOP.**
+
+Do not:
+
+* run the application
+* run tests
+* install dependencies
+* perform dry-run
+* perform cleanup
+* modify Windows
+* request administrator access
+
+Wait for my next instruction.
+
+---
+
+# 47. FUTURE EXECUTION AUTHORIZATION
+
+A future instruction from me may separately authorize execution.
+
+Until I explicitly provide that future instruction:
+
+> **EXECUTION IS NOT AUTHORIZED.**
+
+Do not infer execution permission from any other instruction.
+
+---
+
+# FINAL OBJECTIVE
+
+The required workflow is:
+
+```text
+PHASE 1
+Design + Threat Model + Safety Architecture
+        ↓
+USER APPROVAL
+        ↓
+PHASE 2
+CREATE COMPLETE PRODUCT
+        ↓
+STATIC CODE REVIEW
+        ↓
+STOP
+        ↓
+USER INSPECTION
+        ↓
+USER EXPLICITLY AUTHORIZES EXECUTION
+        ↓
+ONLY THEN MAY EXECUTION BE CONSIDERED
+```
+
+The goal of this phase is therefore:
+
+**BUILD → REVIEW → STOP**
+
+NOT:
+
+**BUILD → RUN → TEST → CLEAN → MODIFY MY COMPUTER**
+
+Do not execute anything unless I separately and explicitly authorize execution in a future message.

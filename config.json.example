@@ -1,0 +1,17 @@
+{
+  "dry_run": true,
+  "require_confirmation": true,
+  "minimum_age_days": 7,
+  "quarantine_enabled": true,
+  "permanent_delete": false,
+  "process_termination": false,
+  "service_changes": false,
+  "docker_cleanup": false,
+  "sql_server_changes": false,
+  "browser_cache_cleanup": false,
+  "power_plan_change": false,
+  "registry_changes": false,
+  "network_changes": false,
+  "external_network_access": false,
+  "log_level": "normal"
+}

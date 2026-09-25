@@ -4,6 +4,7 @@ Windows 11 Development Environment Optimizer
 Entry point coordinating fail-closed execution, dry-run simulation, and quarantine operations.
 """
 
+import os
 import sys
 import json
 from pathlib import Path
@@ -46,9 +47,18 @@ def main() -> int:
         diag = get_system_diagnostics()
         print(f"  OS: {diag['windows_detected']}")
         print(f"  Admin: {'Yes' if diag['is_elevated'] else 'No (Standard User)'}")
+        if diag.get("cpu_identifier"):
+            print(f"  CPU: {diag['cpu_identifier']} ({diag.get('cpu_count', 1)} logical cores)")
         print(f"  System Disk: {diag['disk_free_gb']} GB free ({diag['disk_used_percent']}% used)")
+        sys_drive_prefix = os.environ.get("SystemDrive", "C:").upper()
+        for d in diag.get("disks", []):
+            if not d["drive"].upper().startswith(sys_drive_prefix):
+                dev_tag = " [Dev Drive (ReFS)]" if d.get("is_dev_drive") else ""
+                print(f"  Drive {d['drive']}{dev_tag}: {d['free_gb']} GB free of {d['total_gb']} GB ({d['used_percent']}% used)")
         if diag.get("ram_total_gb"):
             print(f"  System RAM: {diag['ram_free_gb']} GB free of {diag['ram_total_gb']} GB ({diag['ram_used_percent']}% used)")
+        if diag.get("commit_total_gb"):
+            print(f"  Commit Charge: {diag['commit_free_gb']} GB free of {diag['commit_total_gb']} GB ({diag['commit_used_percent']}% used)")
         guid, name = get_active_power_plan()
         print(f"  Active Power Plan: {name or 'Unknown'} ({guid or 'N/A'})")
         procs = list_active_dev_processes()
@@ -111,18 +121,7 @@ def main() -> int:
     total_bytes = sum(c["size_bytes"] for c in candidates)
     total_mb = round(total_bytes / (1024 * 1024), 2)
 
-    if getattr(args, "json", False):
-        output = {
-            "mode": "apply" if is_apply else "dry_run",
-            "total_candidates": len(candidates),
-            "total_size_mb": total_mb,
-            "files": [str(c["path"]) for c in candidates],
-        }
-        print(json.dumps(output, indent=2))
-        return 0
-
-    print(f"[SAFE] Found {len(candidates)} eligible files totaling {total_mb} MB.")
-    # Show category breakdown
+    # Category breakdown computation
     categories: Dict[str, Dict[str, float]] = {}
     for c in candidates:
         cat = c.get("category", "other")
@@ -130,6 +129,58 @@ def main() -> int:
             categories[cat] = {"count": 0, "bytes": 0}
         categories[cat]["count"] += 1
         categories[cat]["bytes"] += c["size_bytes"]
+
+    if getattr(args, "json", False):
+        output = {
+            "mode": "apply" if is_apply else "plan" if getattr(args, "plan", False) else "dry_run",
+            "detected_environment": {
+                "os": win_msg,
+                "is_windows_11": is_win11,
+                "is_elevated": is_elevated(),
+            },
+            "eligible_cleanup_categories": list(categories.keys()),
+            "total_candidates": len(candidates),
+            "total_size_mb": total_mb,
+            "candidate_items": [
+                {
+                    "path": str(c["path"]),
+                    "category": c.get("category", "other"),
+                    "size_bytes": c["size_bytes"],
+                }
+                for c in candidates[:100]
+            ],
+            "skipped_items": [],
+            "reasons": {
+                "minimum_age_days": min_age,
+                "allowlist_only": True,
+                "reparse_points_rejected": True,
+            },
+            "required_privileges": "Standard User (no administrator elevation required)",
+            "proposed_actions": [
+                f"Isolate {len(candidates)} files ({total_mb} MB) into %LOCALAPPDATA%\\Win11DevOptimizer\\quarantine\\"
+            ],
+            "warnings": [
+                "Quarantine is fully reversible via 'python optimizer.py --rollback <RUN_ID>'",
+                "Source code repositories (.git), lock files, and databases (.mdf/.ldf) are strictly protected",
+            ],
+        }
+        print(json.dumps(output, indent=2))
+        return 0
+
+    if getattr(args, "plan", False):
+        print("[CHECK] Analysis & Execution Plan")
+        print(f"  Detected OS: {win_msg}")
+        print(f"  Privileges: {'Administrator' if is_elevated() else 'Standard User'}")
+        print(f"  Safety Filter: Unmodified for >= {min_age} days inside strict allowlist")
+        print(f"  Found Candidates: {len(candidates)} files ({total_mb} MB)")
+        for cat_name, stats in sorted(categories.items()):
+            cat_mb = round(stats["bytes"] / (1024 * 1024), 2)
+            print(f"    - {cat_name.upper()}: {int(stats['count'])} files ({cat_mb} MB)")
+        print(f"  Proposed Action: Move candidates to quarantine (reversible)")
+        print(f"[SAFE] Plan generation complete. Zero modifications made.")
+        return 0
+
+    print(f"[SAFE] Found {len(candidates)} eligible files totaling {total_mb} MB.")
 
     for cat_name, stats in sorted(categories.items()):
         cat_mb = round(stats["bytes"] / (1024 * 1024), 2)

@@ -3,6 +3,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from src.quarantine import QuarantineManager, calculate_sha256
 
 
@@ -23,6 +24,22 @@ class TestQuarantine(unittest.TestCase):
         qm = QuarantineManager(run_id="TEST-RUN-001")
         self.assertEqual(qm.run_id, "TEST-RUN-001")
         self.assertEqual(qm.manifest["status"], "in_progress")
+
+    def test_quarantine_file_move_and_manifest(self):
+        quar_base = Path(self.temp_dir.name) / "quarantine_root"
+        with patch("src.quarantine.get_quarantine_root", return_value=quar_base):
+            qm = QuarantineManager(run_id="TEST-RUN-MOVE")
+            ok, dest_path = qm.quarantine_file(self.test_file)
+            self.assertTrue(ok)
+            self.assertFalse(self.test_file.exists())
+            self.assertTrue(Path(dest_path).exists())
+            self.assertEqual(len(qm.manifest["files"]), 1)
+            entry = qm.manifest["files"][0]
+            self.assertEqual(entry["original_path"], str(self.test_file.resolve()))
+            self.assertEqual(entry["size_bytes"], len("dummy cache contents"))
+            self.assertGreater(entry["mtime"], 0)
+            qm.finalize()
+            self.assertEqual(qm.manifest["status"], "completed")
 
 
 if __name__ == "__main__":

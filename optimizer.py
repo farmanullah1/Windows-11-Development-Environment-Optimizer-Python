@@ -7,6 +7,7 @@ Entry point coordinating fail-closed execution, dry-run simulation, and quaranti
 import sys
 import json
 from pathlib import Path
+from typing import Dict
 
 # Add project root to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -121,6 +122,18 @@ def main() -> int:
         return 0
 
     print(f"[SAFE] Found {len(candidates)} eligible files totaling {total_mb} MB.")
+    # Show category breakdown
+    categories: Dict[str, Dict[str, float]] = {}
+    for c in candidates:
+        cat = c.get("category", "other")
+        if cat not in categories:
+            categories[cat] = {"count": 0, "bytes": 0}
+        categories[cat]["count"] += 1
+        categories[cat]["bytes"] += c["size_bytes"]
+
+    for cat_name, stats in sorted(categories.items()):
+        cat_mb = round(stats["bytes"] / (1024 * 1024), 2)
+        print(f"  - {cat_name.upper()}: {int(stats['count'])} files ({cat_mb} MB)")
 
     if not is_apply:
         print("[SAFE] Dry-run complete. Run with --apply to move eligible files to quarantine.")

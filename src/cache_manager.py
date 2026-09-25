@@ -78,8 +78,18 @@ def scan_allowlisted_files(min_age_days: int = 7) -> List[Dict[str, Any]]:
                 try:
                     stat = file_path.stat()
                     if stat.st_mtime < cutoff_time and not is_file_locked(file_path):
+                        category = "temporary"
+                        root_lower = str(root).lower()
+                        if "npm" in root_lower:
+                            category = "npm"
+                        elif "pip" in root_lower:
+                            category = "pip"
+                        elif "nuget" in root_lower:
+                            category = "nuget"
+
                         candidates.append({
                             "path": file_path,
+                            "category": category,
                             "size_bytes": stat.st_size,
                             "mtime": stat.st_mtime,
                             "allowlist_root": str(root),

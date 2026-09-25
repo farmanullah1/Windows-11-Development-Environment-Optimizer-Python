@@ -1,0 +1,7 @@
+# Python Standard Library Only
+# The Windows 11 Development Optimizer is engineered using Python 3's built-in standard library
+# to eliminate external supply chain risks and network dependency requirements.
+#
+# No external pip packages are strictly required for core functionality.
+# Optional typing/dev tooling:
+# mypy>=1.8.0

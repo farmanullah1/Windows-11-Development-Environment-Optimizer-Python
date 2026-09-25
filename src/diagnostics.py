@@ -27,4 +27,36 @@ def get_system_diagnostics() -> Dict[str, Any]:
         diag["disk_free_gb"] = 0
         diag["disk_used_percent"] = 0
 
+    # System Memory (RAM) via Win32 ctypes
+    try:
+        import ctypes
+
+        class MEMORYSTATUSEX(ctypes.Structure):
+            _fields_ = [
+                ("dwLength", ctypes.c_ulong),
+                ("dwMemoryLoad", ctypes.c_ulong),
+                ("ullTotalPhys", ctypes.c_ulonglong),
+                ("ullAvailPhys", ctypes.c_ulonglong),
+                ("ullTotalPageFile", ctypes.c_ulonglong),
+                ("ullAvailPageFile", ctypes.c_ulonglong),
+                ("ullTotalVirtual", ctypes.c_ulonglong),
+                ("ullAvailVirtual", ctypes.c_ulonglong),
+                ("sullAvailExtendedVirtual", ctypes.c_ulonglong),
+            ]
+
+        stat = MEMORYSTATUSEX()
+        stat.dwLength = ctypes.sizeof(MEMORYSTATUSEX)
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(stat)):
+            diag["ram_total_gb"] = round(stat.ullTotalPhys / (1024**3), 2)
+            diag["ram_free_gb"] = round(stat.ullAvailPhys / (1024**3), 2)
+            diag["ram_used_percent"] = stat.dwMemoryLoad
+        else:
+            diag["ram_total_gb"] = 0
+            diag["ram_free_gb"] = 0
+            diag["ram_used_percent"] = 0
+    except Exception:
+        diag["ram_total_gb"] = 0
+        diag["ram_free_gb"] = 0
+        diag["ram_used_percent"] = 0
+
     return diag

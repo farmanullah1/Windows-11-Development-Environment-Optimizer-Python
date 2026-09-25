@@ -46,6 +46,8 @@ def main() -> int:
         print(f"  OS: {diag['windows_detected']}")
         print(f"  Admin: {'Yes' if diag['is_elevated'] else 'No (Standard User)'}")
         print(f"  System Disk: {diag['disk_free_gb']} GB free ({diag['disk_used_percent']}% used)")
+        if diag.get("ram_total_gb"):
+            print(f"  System RAM: {diag['ram_free_gb']} GB free of {diag['ram_total_gb']} GB ({diag['ram_used_percent']}% used)")
         guid, name = get_active_power_plan()
         print(f"  Active Power Plan: {name or 'Unknown'} ({guid or 'N/A'})")
         procs = list_active_dev_processes()

@@ -21,6 +21,14 @@ def inspect_developer_caches() -> Dict[str, Any]:
     npm_code, npm_out, _ = run_safe_subprocess(["npm", "cache", "verify"])
     results["npm"] = npm_out.strip() if npm_code == 0 else "npm not accessible"
 
+    # .NET NuGet cache status
+    dotnet_code, dotnet_out, _ = run_safe_subprocess(["dotnet", "nuget", "locals", "all", "--list"])
+    results["dotnet_nuget"] = dotnet_out.strip() if dotnet_code == 0 else ".NET SDK not installed or not in PATH"
+
+    # Git status verification
+    git_code, git_out, _ = run_safe_subprocess(["git", "--version"])
+    results["git"] = git_out.strip() if git_code == 0 else "Git not accessible"
+
     # Docker disk status
     docker_code, docker_out, _ = run_safe_subprocess(["docker", "system", "df"])
     results["docker"] = docker_out.strip() if docker_code == 0 else "docker not running or not accessible"

@@ -11,7 +11,16 @@ def list_active_dev_processes() -> List[Dict[str, Any]]:
     if code != 0:
         return []
 
-    dev_names = {"node.exe", "python.exe", "dotnet.exe", "brave.exe", "docker desktop.exe"}
+    dev_names = {
+        "node.exe",
+        "python.exe",
+        "dotnet.exe",
+        "brave.exe",
+        "docker desktop.exe",
+        "postman.exe",
+        "code.exe",
+        "sqlservr.exe",
+    }
     found = []
 
     for line in stdout.splitlines():
